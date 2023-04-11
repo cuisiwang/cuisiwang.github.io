@@ -2,18 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://harlequinicecream.com/about/index.html</loc>
+    <loc>https://harlequinicecream.com/2023/04/03/mycarrdgamelife/</loc>
     
-    <lastmod>2023-04-01</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://harlequinicecream.com/2023/04/01/mywastedmarch/</loc>
-    
-    <lastmod>2023-04-01</lastmod>
+    <lastmod>2023-04-11</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -22,7 +13,7 @@
   <url>
     <loc>https://harlequinicecream.com/2023/03/02/fuckoppo/</loc>
     
-    <lastmod>2023-04-01</lastmod>
+    <lastmod>2023-04-03</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -30,6 +21,15 @@
   
   <url>
     <loc>https://harlequinicecream.com/2023/02/27/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%8E%8B%E7%BC%A9%E5%85%A5%E9%97%A8%E3%80%8B%E7%AE%80%E8%AF%BB/</loc>
+    
+    <lastmod>2023-04-03</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://harlequinicecream.com/about/index.html</loc>
     
     <lastmod>2023-04-01</lastmod>
     
@@ -49,7 +49,7 @@
 
   <url>
     <loc>https://harlequinicecream.com/</loc>
-    <lastmod>2023-04-01</lastmod>
+    <lastmod>2023-04-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -57,21 +57,28 @@
   
   <url>
     <loc>https://harlequinicecream.com/tags/%E4%B8%AD%E6%96%87/</loc>
-    <lastmod>2023-04-01</lastmod>
+    <lastmod>2023-04-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://harlequinicecream.com/tags/%E7%94%9F%E6%B4%BB/</loc>
-    <lastmod>2023-04-01</lastmod>
+    <loc>https://harlequinicecream.com/tags/%E4%BA%BA%E7%94%9FBFS/</loc>
+    <lastmod>2023-04-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://harlequinicecream.com/tags/%E8%81%8A%E8%81%8A%E7%94%9F%E6%B4%BB/</loc>
+    <lastmod>2023-04-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://harlequinicecream.com/tags/%E6%95%B0%E6%8D%AE%E5%8E%8B%E7%BC%A9/</loc>
-    <lastmod>2023-04-01</lastmod>
+    <lastmod>2023-04-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -80,21 +87,21 @@
   
   <url>
     <loc>https://harlequinicecream.com/categories/%E4%B8%AD%E6%96%87/</loc>
-    <lastmod>2023-04-01</lastmod>
+    <lastmod>2023-04-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://harlequinicecream.com/categories/%E4%B8%AD%E6%96%87/%E4%BA%BA%E7%94%9FBFS/</loc>
-    <lastmod>2023-04-01</lastmod>
+    <loc>https://harlequinicecream.com/categories/%E4%B8%AD%E6%96%87/%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2023-04-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://harlequinicecream.com/categories/%E4%B8%AD%E6%96%87/%E7%94%9F%E6%B4%BB%E9%9A%8F%E8%AE%B0/</loc>
-    <lastmod>2023-04-01</lastmod>
+    <loc>https://harlequinicecream.com/categories/%E4%B8%AD%E6%96%87/%E7%94%9F%E6%B4%BB/</loc>
+    <lastmod>2023-04-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
