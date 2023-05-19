@@ -19,15 +19,15 @@
         <meta name="keywords" content="hexo,hexo-blog">
     
     <meta name="description" content="">
-    <meta name="description" content="勤能补拙">
+    <meta name="description" content="首先，这篇文章会讲什么？ Android中的Handler机制，也被称为消息循环机制。它是干什么的，它由哪些东西组成，它是怎么运作的，以及面试会被怎么问。我尽力保证，通过这篇博客，配合给出的推荐文章，面试时handler相关问题就会是你的加分项。 我试着以最简单的语言去讲述我认为的最重要的东西，但这样难免出现不好理解的情况，这种时候就只能自己去搞明白了。 Let’s go then.Handl">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Handler私房菜">
 <meta property="og:url" content="https://harlequinicecream.com/2023/04/13/handlerMenu/index.html">
 <meta property="og:site_name" content="三味冰淇淋">
-<meta property="og:description" content="勤能补拙">
+<meta property="og:description" content="首先，这篇文章会讲什么？ Android中的Handler机制，也被称为消息循环机制。它是干什么的，它由哪些东西组成，它是怎么运作的，以及面试会被怎么问。我尽力保证，通过这篇博客，配合给出的推荐文章，面试时handler相关问题就会是你的加分项。 我试着以最简单的语言去讲述我认为的最重要的东西，但这样难免出现不好理解的情况，这种时候就只能自己去搞明白了。 Let’s go then.Handl">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-04-13T14:36:31.000Z">
-<meta property="article:modified_time" content="2023-04-14T11:28:11.940Z">
+<meta property="article:modified_time" content="2023-05-19T13:08:25.932Z">
 <meta property="article:author" content="Dath Chou">
 <meta property="article:tag" content="中文">
 <meta property="article:tag" content="Android">
@@ -340,7 +340,7 @@
                 <!-- 文章字数统计 -->
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">4</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">1.3k</span>阅读时长: <span class="post-count reading-time">4 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -503,7 +503,33 @@
     <article class="article-entry">
         <span id="more"></span>
 
-<p>勤能补拙</p>
+<p>首先，这篇文章会讲什么？</p>
+<p>Android中的<strong>Handler机制</strong>，也被称为<strong>消息循环机制</strong>。它是干什么的，它由哪些东西组成，它是怎么运作的，以及<strong>面试会被怎么问</strong>。我尽力保证，通过这篇博客，配合给出的推荐文章，面试时handler相关问题就会是你的加分项。</p>
+<p>我试着以最简单的语言去讲述我认为的最重要的东西，但这样难免出现不好理解的情况，这种时候就只能自己去搞明白了。</p>
+<h3 id="Let’s-go-then"><a href="#Let’s-go-then" class="headerlink" title="Let’s go then."></a>Let’s go then.</h3><h2 id="Handler是做什么的？"><a href="#Handler是做什么的？" class="headerlink" title="Handler是做什么的？"></a>Handler是做什么的？</h2><p>手机上一切你能看到的东西都是要系统去绘制的，如果多线程下，每个线程都可以绘制ui，会出现多个线程同时绘制同一个ui的不可控情况，这是不可接受的。</p>
+<p>那我们为什么不加锁呢？</p>
+<p>太慢。UI需要以最快的速度绘制出来。</p>
+<p>Handler就是为了解决这个问题，它让UI统一在主线程，有序的一个个绘制。具体来说，<strong>子线程通过持有主线程Handler的引用，使用主线程Handler进行UI绘制任务，实现子线程向主线程通信进行UI绘制。</strong></p>
+<p>听不懂？没关系，先往下看。</p>
+<h2 id="Handler机制成员"><a href="#Handler机制成员" class="headerlink" title="Handler机制成员"></a>Handler机制成员</h2><p>在了解Handler的运作原理之前，先来看看是什么在支撑着整套系统。</p>
+<p><em>作为一个共产主义者，我想要提醒您，就像接下来要讲的几个类支撑起了Handler机制一样，不要忘记是劳动人民支撑起了一切，</em></p>
+<p>在这个部分，我会将整套消息循环机制比作一个流水线工厂，帮助尚未入门的我们更好理解各部分的作用。</p>
+<p>现在想象一个工厂，有一个或多个窗口，将原材料放在一个盒子里从窗口送进去，这些盒子会被送到同一个传送带上，然后依次被同一个加工机器加工，最后被送回原窗口。</p>
+<ol>
+<li>Handler。作为冠名整套机制的类，Handler就像这个工厂的窗口一样，往里面送入原材料，就会被加工好后送出来，再进行一系列的操作。</li>
+<li>Message。流水线中的原材料不尽相同，但会被装在统一样式的盒子里。Message就是负责承载这些原材料的盒子。</li>
+<li>MessageQueue。一开始说到这些装着原材料的盒子会被送到同一个传送带上，MessageQueue就是这样一个传送带，从它的名字上（消息队列）也能看出，这些Message会被送到这里来一个个被处理。</li>
+<li>Looper。最后，传送带上的盒子（Message）会一个个被这台叫Looper的机器取走，加工，最后送回到它们被送进来的窗口。一条消息的循环就此完成。</li>
+</ol>
+<p>文字难免抽象，看看图。</p>
+<p>图图图图图图图图图图图图图图图图</p>
+<p>既然如此，我们只需要把主线程的窗口广而告之，所有子线程（再想象一下，这个流水线以外有许多工人，他们负责往窗口里送东西）就都可以通过向主线程的窗口里送消息了。也就是说，子线程可以向主线程通信，让主线程按照子线程的想法修改ui了。</p>
+<h2 id="Handler运行原理"><a href="#Handler运行原理" class="headerlink" title="Handler运行原理"></a>Handler运行原理</h2><p>到了问题大头了，有了Handler机制的概念，那么它到底是怎么运作的呢？</p>
+<p>我想把重心放在Handler的原理上，但如果你连见都没见过这套机制在代码上要怎么使用的话，光听原理可能有点空中楼阁。所以我随便搜了一套代码，来展示Handler机制的使用。</p>
+<p>（这套代码为了好看，我把它改的不太好运行，所以不要尝试跑它）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HandlerAddThreadActivity</span> <span class="keyword">extends</span> <span class="title class_">AppCompatActivity</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Button mButton;     <span class="comment">//一个要改变UI的按钮</span></span><br><span class="line">    <span class="keyword">private</span> Handler mHandler; <span class="comment">//主线程Handler</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_handler_add_thread);</span><br><span class="line"></span><br><span class="line">        mButton = findViewById(xxxx);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//实例化主Handler</span></span><br><span class="line">        mHandler = <span class="keyword">new</span> <span class="title class_">Handler</span>(Looper.getMainLooper()) &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">handleMessage</span><span class="params">(Message msg)</span> &#123;</span><br><span class="line">                <span class="built_in">super</span>.handleMessage(msg);</span><br><span class="line">                <span class="comment">//根据Message中的内容执行不同逻辑，比如改变mButton的文字</span></span><br><span class="line">                <span class="keyword">if</span>(msg.what==<span class="number">1</span>) mButton.setText(<span class="string">&quot;文案1&quot;</span>);</span><br><span class="line">                <span class="keyword">else</span> mButton.setText(<span class="string">&quot;文案2&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//开启一个子线程</span></span><br><span class="line">        <span class="type">CustomChildThread</span> <span class="variable">customThread</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">CustomChildThread</span>();</span><br><span class="line">        customThread.start();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//子线程，用于处理耗时工作</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CustomChildThread</span> <span class="keyword">extends</span> <span class="title class_">Thread</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="comment">//通过让线程睡眠一秒，来模拟一个长耗时的任务</span></span><br><span class="line">            Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">            <span class="comment">//现在长耗时任务完成了，我们想通知主线程要去修改UI了</span></span><br><span class="line">            <span class="comment">//在子线程中创建一个消息对象</span></span><br><span class="line">            <span class="type">Message</span> <span class="variable">childThreadMessage</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Message</span>();</span><br><span class="line">            childThreadMessage.what = <span class="number">1</span>;</span><br><span class="line">            <span class="comment">//将该消息放入主线程的消息队列中</span></span><br><span class="line">            mHandler.sendMessage(childThreadMessage);</span><br><span class="line">            <span class="comment">//最后主线程Handler会处理这个Message，发现Message.what==1，</span></span><br><span class="line">            <span class="comment">//于是把按钮的文字改为&quot;文案1&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在，让我们再来看看谷歌到底是怎么实现这一套充满美感的机制的。（当我们说完postDelayed()方法后，你一定会明白为什么我说它”充满美感”）</p>
 
     </article>
     <!-- license -->
@@ -512,7 +538,7 @@
             <p>原文作者：<a href="https://harlequinicecream.com">Dath Chou</a>
             <p>原文链接：<a href="https://harlequinicecream.com/2023/04/13/handlerMenu/">https://harlequinicecream.com/2023/04/13/handlerMenu/</a>
             <p>发表日期：<a href="https://harlequinicecream.com/2023/04/13/handlerMenu/">April 13th 2023, 10:36:31 pm</a>
-            <p>更新日期：<a href="https://harlequinicecream.com/2023/04/13/handlerMenu/">April 14th 2023, 7:28:11 pm</a>
+            <p>更新日期：<a href="https://harlequinicecream.com/2023/04/13/handlerMenu/">May 19th 2023, 9:08:25 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可，图转侵删致歉。</p>
         </div>
     
@@ -665,7 +691,7 @@
                 <div class="toc-catalog">
                     <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
                 </div>
-                
+                <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Let%E2%80%99s-go-then"><span class="toc-number">1.</span> <span class="toc-text">Let’s go then.</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Handler%E6%98%AF%E5%81%9A%E4%BB%80%E4%B9%88%E7%9A%84%EF%BC%9F"><span class="toc-number"></span> <span class="toc-text">Handler是做什么的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Handler%E6%9C%BA%E5%88%B6%E6%88%90%E5%91%98"><span class="toc-number"></span> <span class="toc-text">Handler机制成员</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Handler%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86"><span class="toc-number"></span> <span class="toc-text">Handler运行原理</span></a>
             </div>
         
         <!-- sidebar -->
