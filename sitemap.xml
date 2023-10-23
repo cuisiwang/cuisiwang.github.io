@@ -106,20 +106,6 @@
   </url>
   
   <url>
-    <loc>https://harlequinicecream.com/tags/Android/</loc>
-    <lastmod>2023-10-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://harlequinicecream.com/tags/%E4%BA%BA%E7%94%9FDFS/</loc>
-    <lastmod>2023-10-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://harlequinicecream.com/tags/%E8%81%8A%E8%81%8A%E7%94%9F%E6%B4%BB/</loc>
     <lastmod>2023-10-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -134,7 +120,14 @@
   </url>
   
   <url>
-    <loc>https://harlequinicecream.com/tags/%E5%AD%A6%E4%B9%A0/</loc>
+    <loc>https://harlequinicecream.com/tags/Android/</loc>
+    <lastmod>2023-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://harlequinicecream.com/tags/%E4%BA%BA%E7%94%9FDFS/</loc>
     <lastmod>2023-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -142,6 +135,13 @@
   
   <url>
     <loc>https://harlequinicecream.com/tags/%E7%9E%8E%E5%86%99%E5%86%99/</loc>
+    <lastmod>2023-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://harlequinicecream.com/tags/%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2023-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -164,6 +164,13 @@
   </url>
   
   <url>
+    <loc>https://harlequinicecream.com/categories/%E4%B8%AD%E6%96%87/%E7%94%9F%E6%B4%BB/</loc>
+    <lastmod>2023-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://harlequinicecream.com/categories/%E4%B8%AD%E6%96%87/%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2023-10-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -172,13 +179,6 @@
   
   <url>
     <loc>https://harlequinicecream.com/categories/%E4%B8%AD%E6%96%87/%E5%AD%A6%E4%B9%A0/Android/</loc>
-    <lastmod>2023-10-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://harlequinicecream.com/categories/%E4%B8%AD%E6%96%87/%E7%94%9F%E6%B4%BB/</loc>
     <lastmod>2023-10-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
