@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <!-- title -->
+
+
+    
+
+<!-- keywords -->
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Dath Chou">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Dath Chou">
+    
+        <meta name="keywords" content="hexo,hexo-blog">
+    
+    <meta name="description" content="">
+    <meta name="description" content="简简单单对Colt McAnlis写的《数据压缩入门》前几章有关无损数据压缩部分进行一个简读。不得不说我看的这本，图灵程序设计丛书，中国工信出版集团与人民邮电出版社出版的这本真有点臭，翻译有点问题，还总能看到错误。 信息，二进制编码，与香农的诅咒要讲怎么把数据压缩得更小，自然了解数据是什么，怎么样存在着。 信息在计算机中以二进制形式存在，这点不消多说。这篇文章中，作者默认读者有着一定的计算机基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《数据压缩入门》简读">
+<meta property="og:url" content="https://harlequinicecream.com/2023/02/27/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%8E%8B%E7%BC%A9%E5%85%A5%E9%97%A8%E3%80%8B%E7%AE%80%E8%AF%BB/index.html">
+<meta property="og:site_name" content="三味冰淇淋">
+<meta property="og:description" content="简简单单对Colt McAnlis写的《数据压缩入门》前几章有关无损数据压缩部分进行一个简读。不得不说我看的这本，图灵程序设计丛书，中国工信出版集团与人民邮电出版社出版的这本真有点臭，翻译有点问题，还总能看到错误。 信息，二进制编码，与香农的诅咒要讲怎么把数据压缩得更小，自然了解数据是什么，怎么样存在着。 信息在计算机中以二进制形式存在，这点不消多说。这篇文章中，作者默认读者有着一定的计算机基础">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://harlequinicecream.com/2023/02/27/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%8E%8B%E7%BC%A9%E5%85%A5%E9%97%A8%E3%80%8B%E7%AE%80%E8%AF%BB/Image_20230227100838_053952.png">
+<meta property="og:image" content="https://harlequinicecream.com/2023/02/27/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%8E%8B%E7%BC%A9%E5%85%A5%E9%97%A8%E3%80%8B%E7%AE%80%E8%AF%BB/Image_20230227161212_053957.png">
+<meta property="og:image" content="https://harlequinicecream.com/2023/02/27/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%8E%8B%E7%BC%A9%E5%85%A5%E9%97%A8%E3%80%8B%E7%AE%80%E8%AF%BB/Image_20230227161228_053955.png">
+<meta property="article:published_time" content="2023-02-27T13:08:55.000Z">
+<meta property="article:modified_time" content="2025-01-12T16:07:01.882Z">
+<meta property="article:author" content="Dath Chou">
+<meta property="article:tag" content="中文">
+<meta property="article:tag" content="人生BFS">
+<meta property="article:tag" content="数据压缩">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://harlequinicecream.com/2023/02/27/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%8E%8B%E7%BC%A9%E5%85%A5%E9%97%A8%E3%80%8B%E7%AE%80%E8%AF%BB/Image_20230227100838_053952.png">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="/avatar/Misaka.jpg">
+    
+    <title>《数据压缩入门》简读 · 三味冰淇淋</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
+    
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
+    
+        <body class="post-body">
+    
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu">
+        
+            
+                <div style="padding-left: 1px;">&#xe775;</div>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- theme mode switch button -->
+        <span class="header-theme-btn header-element">
+            <i class="fas fa-adjust"></i>
+        </span>
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <a href=/>三味冰淇淋</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
+    
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">三味冰淇淋</a>
+            </div>
+            <div class="post-title header-element">
+                <a href="#" class="post-name">《数据压缩入门》简读</a>
+            </div>
+        </div>
+    
+</header>
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden">
+        
+        
+            <div>&#xe639;</div>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
+
+
+
+
+
+
+
+    height:50vh;
+
+">
+    
+    <!-- 主页  -->
+    
+        
+    <!-- 404页  -->
+    
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+                《数据压缩入门》简读
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+                
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页 meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="中文">中文</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="人生BFS">人生BFS</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="数据压缩">数据压缩</a>
+    
+</div>
+
+                
+                <!-- 文章字数统计 -->
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">3.1k</span>阅读时长: <span class="post-count reading-time">10 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
+                    <span class="post-intro-time">2023/02/27</span>
+                    <!-- busuanzi -->
+                    
+                        <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                            <span class="iconfont-archer post-intro-busuanzi">&#xe602;</span>
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+
+            <script>
+  // get user agent
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
+  }
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded')
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in')
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb() {
+    if (browser.versions.uc) {
+      console.log('UCBrowser')
+      fontLoaded()
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular'],
+        },
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
+        },
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
+        },
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
+        },
+        timeout: 5000, // Set the timeout to two seconds
+      })
+    }
+  }
+
+  function asyncErr() {
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
+  }
+
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
+
+    async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
+</script>
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
+    <article class="article-entry">
+        <span id="more"></span>
+<p><em>简简单单对Colt McAnlis写的《数据压缩入门》前几章有关无损数据压缩部分进行一个简读。<br>不得不说我看的这本，图灵程序设计丛书，中国工信出版集团与人民邮电出版社出版的这本真有点臭，翻译有点问题，还总能看到错误。</em></p>
+<h2 id="信息，二进制编码，与香农的诅咒"><a href="#信息，二进制编码，与香农的诅咒" class="headerlink" title="信息，二进制编码，与香农的诅咒"></a>信息，二进制编码，与香农的诅咒</h2><p>要讲怎么把数据压缩得更小，自然了解数据是什么，怎么样存在着。</p>
+<p>信息在计算机中以二进制形式存在，这点不消多说。这篇文章中，作者默认读者有着一定的计算机基础，那么读者肯定知道生活中的十进制数是可以,且需要转化为二进制数存在计算机当中的。</p>
+<p>但问题是，该怎么知道一个符号需要几个二进制位来表示呢？</p>
+<p>“熵”这个概念在很多领域都有自己的应用，而在信息论里，香农给它的定义是这样的：</p>
+<blockquote>
+<p>一个数的熵为该数对应的log2(n)的值。用来表示该数所需要的最少二进制位。</p>
+</blockquote>
+<p>这是一个数字的熵，而对于一个数据集X的熵，定义是这样的：</p>
+<p><img src="/2023/02/27/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%8E%8B%E7%BC%A9%E5%85%A5%E9%97%A8%E3%80%8B%E7%AE%80%E8%AF%BB/Image_20230227100838_053952.png" alt="熵的定义"></p>
+<p>看上去有点复杂？其实很简单，就是该数据集中，每个符号的出现概率，乘上这个概率以二为底的对数(lb)，求和后取相反数。</p>
+<p>听上去还是晕乎乎的？没关系，知道有这个概念就ok了，更重要的是熵有什么意义。前面说一个数的熵是表示该数需要的最少二进制位，而一个数据集的熵就是该数据集中<strong>表示这组数据每个符号平均需要的二进制位数</strong>。打个比方 [A,B,B,C,C,C,D,D,D,D] 这样一个数据集，它的熵是-1.8455，意味着每个每个符号最少平均需要1.8455个二进制位来表示。</p>
+<p>而在计算机当中肯定会和理论有所冲突，比如数字10的熵为3.321，计算机怎么能用3.321个位来表示一个数呢。所以便向上取整，用4个位来表示10。</p>
+<p>并且假设我们在计算机中想存储一个10，则二进制形式则为1010，但计算机又怎么知道这是个”10”，而不是两个”2”（10）呢？</p>
+<p>不论是像这样取整的问题，还是避免歧义的问题，都是理论和实际的差距。香农用熵告诉我们，一个数据集的二进制大小是有限制的，最小也小不过它的熵。</p>
+<p>真的是这样吗？我们明知山有虎，偏向虎山行，就要试着去打破这个魔咒看看。</p>
+<h2 id="统计编码"><a href="#统计编码" class="headerlink" title="统计编码"></a>统计编码</h2><h3 id="VLC"><a href="#VLC" class="headerlink" title="VLC"></a>VLC</h3><p>VLC(variable-length codes)，变长编码，的核心思想是根据符号在全文中出现的概率为其分配不同长度的编码。出现概率更大的符号就给予更短的编码，自然整体编码的长度就变小了。然后提供一个对应的编码表，就可以正确的逆向解码。</p>
+<p>VLC进行编码时要注意不能产生歧义，故要使用编码的前缀性质，其中最著名最常见的方式便是霍夫曼编码。 </p>
+<p>根据概率模型去构建一个VLC时所用的工具称为统计编码，霍夫曼编码就是其中重要的一部分。但霍夫曼编码的局限性在于其最好情况出现在每个符号的出现概率都坐落在2的负整数次幂上，因为每次至少分配一个1或者0。</p>
+<h3 id="算数编码"><a href="#算数编码" class="headerlink" title="算数编码"></a>算数编码</h3><p>算数编码则提供了另一种解决思路，它将整个数据转换为一个很长的数值，根据每个字符出现的概率不断分段以编码。</p>
+<p>形象一点来说，如果把整个数据视为一条绳子，每出现一个字符就根据其出现的概率减去固定长度的一段，剪到最后的一小段绳子就是最后编码完成的数据（这里的一小段在概念上是一个小数点后很多位的小数，计算机中会把小数点去掉，所以就成为了一个很长的数字）。而解码的过程就是把这条绳子剪掉的部分一截一截加上去。</p>
+<h3 id="ANS"><a href="#ANS" class="headerlink" title="ANS"></a>ANS</h3><p>现在有一个更好的统计编码算法，被称为非对称数字系统（ANS）。说起来可能有点复杂，扔两张PPT试着理解一下，核心思想是围绕着一张表来<strong>逐位输出</strong>，压缩的原理也是“出现可能性越小的符号列高越低，逐位输出的二进制位数就越多”。</p>
+<p><img src="/2023/02/27/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%8E%8B%E7%BC%A9%E5%85%A5%E9%97%A8%E3%80%8B%E7%AE%80%E8%AF%BB/Image_20230227161212_053957.png" alt="表的使用"></p>
+<p><img src="/2023/02/27/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%8E%8B%E7%BC%A9%E5%85%A5%E9%97%A8%E3%80%8B%E7%AE%80%E8%AF%BB/Image_20230227161228_053955.png" alt="加密过程简单示意"></p>
+<p>值得一提的是，当今最好用的两大压缩算法之一zstd算法，就使用了ANS。另 一个最好的压缩算法是lz4，在下文也有所介绍。二者在压缩速度与压缩率上各有千秋，但总的来说这二者都是从速度和压缩率上全面暴打了别的压缩算法。</p>
+<h3 id="自适应统计编码"><a href="#自适应统计编码" class="headerlink" title="自适应统计编码"></a>自适应统计编码</h3><p>以上的内容都是基于“把整个数据看一遍，根据每个符号出现概率进行编码压缩”的思路上进行的，但实际上会出现“数据源源不断的流入，无法直接将其扫一遍”的场景。进一步的，符号在数据流中不同的部分出现的概率很大可能是不同的，一个符号可能在前一部分很少出现，但过了一会开始频繁出现，这种现象与计算机的局部性原理很像，书中被作者称为<strong>局部偏态</strong> 。</p>
+<p>在这种情况下，若仍希望通过统计编码进行压缩，则所用的方法被称为<strong>自适应统计编码</strong>。</p>
+<p>自适应VLC编码的思想与VLC基本相同，只不过要边读符号，边动态的计算该符号的出现概率，并动态的为其编码。如读入并输出了一个“B”后，发现“B”的出现概率超过了“A”，则将二者的编码进行对换。而解码时从头演变一次就可以了。</p>
+<p>在自适应编码过程中也有可以额外操作的空间，比如编码过程中在需要的时候可以设置一个 <em>RESET</em> 重置标记来表示编码表被重置了，要从零开始建表，以此防止输出流的熵变得失控。</p>
+<p>自适应算数编码和自适应VLC编码的思想基本是一样的，就不多说了。</p>
+<h2 id="字典转换"><a href="#字典转换" class="headerlink" title="字典转换"></a>字典转换</h2><p>以上都是“针对单个符号进行编码”的内容，但事实上很多符号经常组合在一起出现，比如英语中的单词。那么我们能不能利用这个性质呢？于是有了 字典转换。</p>
+<p>大名鼎鼎的<strong>LZ算法</strong>就属于字典转换的范畴，介绍起来可能有点复杂，试着简述一下：</p>
+<p>首先设置一个滑动窗口，并把这个窗口分为左右两部分。左边时已经处理过的<strong>搜索缓冲区</strong>，右边是待处理的<strong>先行缓冲区</strong>。这个窗口就在整个数据流中从左往右（从头到尾）滑动，然后有以下处理：</p>
+<p>1.对于先行缓冲区的第一个字符，假设这里是字母X，从搜索缓冲区尾部开始寻找其第一个匹配。</p>
+<p>2.若没找到，则输出&lt;0,0,X&gt;。若找到匹配，再去看先行缓冲区的下一个字符，看刚刚匹配的位置下一个字符是否依然匹配。如果不匹配了就再往前找，直到搜索到搜索缓冲区头部也没找到为止。如果依然匹配就再往下一个字符，重复到不匹配为止。也就是寻找最长的字符串匹配。</p>
+<p>3.寻找最长字符串匹配完成后，输出找到匹配的位置以及匹配的字符串长度。</p>
+<p>简单画个图：</p>
+<p>TOBEORNO | TOBEAAA</p>
+<p>根据上述流程，匹配的最长字符串应该是“TOBE”所以会输出&lt;8,4&gt;,意味向前数8个字符后四个字符为匹配项。然后移动窗口到这个位置：</p>
+<p>TOBEORNOTOBE | AAA</p>
+<p>这样的输出肉眼可见比原数据小得多，但更妙的是，这样的输出还可以通过VLC或别的方法进行进一步压缩。</p>
+<h2 id="上下文压缩"><a href="#上下文压缩" class="headerlink" title="上下文压缩"></a>上下文压缩</h2><p>另一种基于语境、上下文进行压缩的方法叫做 上下文数据转换。</p>
+<p>我曾经想象的一种压缩方式看书时发现实际存在，叫做RLE。一言以蔽之就是：</p>
+<p>AAAAABBBCCCC -&gt; (A,5)(B,3)(C,4)</p>
+<p>很好理解吧，但其中有消除歧义的问题需要解决，就不赘述了。</p>
+<p>增量编码也好理解：</p>
+<p>(4,5,6,7,8,8,8) -&gt;(4,1,1,1,1,0,0,0)</p>
+<p>通过加上前面一位来获得真实值。但这样简单的编码方式很多时候并不好用，于是出现了XOR增量编码，参照系增量编码等。更重要的是，经过这样转换的数据可以进一步进行压缩。</p>
+<p>MTF（前移编码）和计算机里的局部性原理很像，认为出现过的字符很可能再次出现。所以维护一个有向列表，每出现一个字符就从列表中找到他的索引值并输出，再将这个字符移到列表头。</p>
+<p>一个很有趣的算法，BWT，可以找出原数据的一种排列，让相同的符号更加靠近，这样就可以更好的进行压缩。这一行为通常被称为字典序排列。BWT肯定是可逆的（不然不就没有意义了吗），最常见的用法是将数据使用BWT转换后再使用MTF压缩（而不是RLE或LZ，这是有原因的！）。</p>
+<p>LZ，RLE，增量编码，BMT都建立在一个假设上：数据的最佳编码方式与它的相邻性有关。</p>
+<h2 id="马尔科夫链"><a href="#马尔科夫链" class="headerlink" title="马尔科夫链"></a>马尔科夫链</h2><p>虽然有着很玄学的数学定义，但马尔科夫链在实际层面上也是通过字符出现频率以推测概率，进而动态分配合适的码字。</p>
+<p>比如通过对数据建模，发现如果前面是“hell”，那么下一个字符是“o”的概率高达百分之99，那么就可以给它分配最短的码字。</p>
+<p>书中对马尔可夫链的评价非常高，原句是“如果不考虑一切其它因素，如时间成本等，那么最优的数据压缩就是个已解决的问题。”</p>
+<p>但实际使用太复杂了，就简单的考虑hell后面接o的情况，就需要考虑到26的四次方种情况（每个字母后面都可能接26个字母中的其中一个，并且实际情况中还有各种符号，更加复杂）。所以实际中会使用更简单的方法，如PPM（部分匹配预测算法），或PAQ（上下文混合算法）。</p>
+<p>最后简单做个书中压缩算法归类：</p>
+<p>统计编码：VLC编码，算数编码，ANS，自适应统计编码（VLC,算数）</p>
+<p>字典转换：LZ</p>
+<p>上下文数据转换：行程编码（RLE），增量编码，前移编码（MTF），伯罗斯-惠勒变换（BWT）</p>
+<p>马尔科夫链</p>
+<p>适用场景：</p>
+<p>静态VLC，算术编码：少量数据，复杂度更低</p>
+<p>自适应…：大量数据或多媒体文件，以及更好的压缩率和运行时性能。</p>
+<p>字典转换：位于“单词”的背景下的场景（但实际上LZ4在各种场景都基本表现很不错对吧）</p>
+<p>增量编码：多用于数值型的数据。</p>
+<p>RLE：适用于大量字符连续重复出现的场景。</p>
+<p>MFT：相同符号集中的场景</p>
+
+    </article>
+    <!-- license -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://harlequinicecream.com">Dath Chou</a>
+            <p>原文链接：<a href="https://harlequinicecream.com/2023/02/27/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%8E%8B%E7%BC%A9%E5%85%A5%E9%97%A8%E3%80%8B%E7%AE%80%E8%AF%BB/">https://harlequinicecream.com/2023/02/27/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%8E%8B%E7%BC%A9%E5%85%A5%E9%97%A8%E3%80%8B%E7%AE%80%E8%AF%BB/</a>
+            <p>发表日期：<a href="https://harlequinicecream.com/2023/02/27/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%8E%8B%E7%BC%A9%E5%85%A5%E9%97%A8%E3%80%8B%E7%AE%80%E8%AF%BB/">二月 27日 2023, 9:08:55 晚上</a>
+            <p>更新日期：<a href="https://harlequinicecream.com/2023/02/27/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%8E%8B%E7%BC%A9%E5%85%A5%E9%97%A8%E3%80%8B%E7%AE%80%E8%AF%BB/">January 13th 2025, 12:07:01 am</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可，图转侵删致歉。</p>
+        </div>
+    
+    <!-- paginator -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/2023/03/02/fuckoppo/" title="聊聊oppo，以及实习">
+                    <div class="nextTitle">聊聊oppo，以及实习</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/2023/02/11/%E5%A5%B3%E7%94%9F%E5%BE%92/" title="《女生徒》 ——太宰治">
+                    <div class="prevTitle">《女生徒》 ——太宰治</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- comment -->
+    
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
+
+            
+
+            
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
+            
+            
+
+            
+
+        </div>
+    
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+    <!-- Mathjax -->
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+        <div class="social">
+            
+    
+        
+            
+                <a href="mailto:cuisiwanf@163.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/cuisiwang" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                    
+                    <img class="profile-qr" src="/assets/weixin_qr.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+        </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    
+    <!-- 不蒜子  -->
+    
+        <div class="busuanzi-container">
+            
+             
+                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+            
+        </div>
+    	
+</footer>
+
+        </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
+
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%EF%BC%8C%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E7%A0%81%EF%BC%8C%E4%B8%8E%E9%A6%99%E5%86%9C%E7%9A%84%E8%AF%85%E5%92%92"><span class="toc-number">1.</span> <span class="toc-text">信息，二进制编码，与香农的诅咒</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%9F%E8%AE%A1%E7%BC%96%E7%A0%81"><span class="toc-number">2.</span> <span class="toc-text">统计编码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#VLC"><span class="toc-number">2.1.</span> <span class="toc-text">VLC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%95%B0%E7%BC%96%E7%A0%81"><span class="toc-number">2.2.</span> <span class="toc-text">算数编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ANS"><span class="toc-number">2.3.</span> <span class="toc-text">ANS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E9%80%82%E5%BA%94%E7%BB%9F%E8%AE%A1%E7%BC%96%E7%A0%81"><span class="toc-number">2.4.</span> <span class="toc-text">自适应统计编码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E5%85%B8%E8%BD%AC%E6%8D%A2"><span class="toc-number">3.</span> <span class="toc-text">字典转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8E%8B%E7%BC%A9"><span class="toc-number">4.</span> <span class="toc-text">上下文压缩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE"><span class="toc-number">5.</span> <span class="toc-text">马尔科夫链</span></a></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 12
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+        
+            
+            
+            <div class="archive-year"> 2025 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span>
+            <a class="archive-post-title" href="/2025/01/17/whateverhello2025/">真的吗真的吗，我2024一年就写了一篇博客吗</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2024 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/23</span>
+            <a class="archive-post-title" href="/2024/07/23/lalalala/">转眼间2024过去不止一半了</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2023 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/20</span>
+            <a class="archive-post-title" href="/2023/12/20/ilove2023ireallydo/">ありがとう2023、そして、また。</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/27</span>
+            <a class="archive-post-title" href="/2023/11/27/daysundoing/">へいじつ</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/20</span>
+            <a class="archive-post-title" href="/2023/08/20/ohmylalaland/">おかえり</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/11</span>
+            <a class="archive-post-title" href="/2023/07/11/sarabauntouchabledreamland/">年轻人的第一款提桶跑路</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/23</span>
+            <a class="archive-post-title" href="/2023/05/23/shittymiketea/">我在成都郊区的景点买了杯奥利给奶茶</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/13</span>
+            <a class="archive-post-title" href="/2023/04/13/handlerMenu/">Handler私房菜</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/03</span>
+            <a class="archive-post-title" href="/2023/04/03/mycarrdgamelife/">我的卡牌人生</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/02</span>
+            <a class="archive-post-title" href="/2023/03/02/fuckoppo/">聊聊oppo，以及实习</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/27</span>
+            <a class="archive-post-title" href="/2023/02/27/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%8E%8B%E7%BC%A9%E5%85%A5%E9%97%A8%E3%80%8B%E7%AE%80%E8%AF%BB/">《数据压缩入门》简读</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/11</span>
+            <a class="archive-post-title" href="/2023/02/11/%E5%A5%B3%E7%94%9F%E5%BE%92/">《女生徒》 ——太宰治</a>
+        </li>
+    
+    </div>
+</div>
+
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+        
+            <span class="sidebar-tag-name" data-tags="中文">
+                <span class="iconfont-archer">&#xe606;</span>
+                中文
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="人生BFS">
+                <span class="iconfont-archer">&#xe606;</span>
+                人生BFS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="聊聊生活">
+                <span class="iconfont-archer">&#xe606;</span>
+                聊聊生活
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Android">
+                <span class="iconfont-archer">&#xe606;</span>
+                Android
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="人生DFS">
+                <span class="iconfont-archer">&#xe606;</span>
+                人生DFS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="瞎写写">
+                <span class="iconfont-archer">&#xe606;</span>
+                瞎写写
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="旅游">
+                <span class="iconfont-archer">&#xe606;</span>
+                旅游
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="数据压缩">
+                <span class="iconfont-archer">&#xe606;</span>
+                数据压缩
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="学习">
+                <span class="iconfont-archer">&#xe606;</span>
+                学习
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="年终总结">
+                <span class="iconfont-archer">&#xe606;</span>
+                年终总结
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="聊聊生活，年终总结">
+                <span class="iconfont-archer">&#xe606;</span>
+                聊聊生活，年终总结
+            </span>
+        
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="中文">
+            <span class="iconfont-archer">&#xe60a;</span>
+            中文
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="学习">
+            <span class="iconfont-archer">&#xe60a;</span>
+            学习
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="生活">
+            <span class="iconfont-archer">&#xe60a;</span>
+            生活
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="Android">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Android
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="学习">
+            <span class="iconfont-archer">&#xe60a;</span>
+            学习
+        </span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+
+    </div>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
+    var siteMeta = {
+        url: "https://harlequinicecream.com",
+        root: siteMetaRoot,
+        author: "Dath Chou"
+    }
+</script>
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20211217" async></script>
+        
+        <!-- mermaid -->
+        
+    </body>
+</html>

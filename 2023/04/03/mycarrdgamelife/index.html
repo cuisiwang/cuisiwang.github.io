@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <!-- title -->
+
+
+    
+
+<!-- keywords -->
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Dath Chou">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Dath Chou">
+    
+        <meta name="keywords" content="hexo,hexo-blog">
+    
+    <meta name="description" content="">
+    <meta name="description" content="三月荒废，和各大厂小厂拉扯了一个月，点名批评腾讯，不想招人别招。 明明没几天就要去北京美团当骑手了，后面还不知道什么时候能回深圳，但脑子一热又进了个新坑，发现家旁边就有家牌店在做这个，还是跑过去和老板认识了一下。老板人很好，知道我没几天呆也消费不了几个钱还是很热情。巧的是这个老板以前还是腾讯的，说自己不想卷了跑出来的，现在顺着兴趣做卡牌，我也可以跟他吐槽吐槽面试的破事儿。 今晚闲来无事，聊聊我">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我的卡牌人生">
+<meta property="og:url" content="https://harlequinicecream.com/2023/04/03/mycarrdgamelife/index.html">
+<meta property="og:site_name" content="三味冰淇淋">
+<meta property="og:description" content="三月荒废，和各大厂小厂拉扯了一个月，点名批评腾讯，不想招人别招。 明明没几天就要去北京美团当骑手了，后面还不知道什么时候能回深圳，但脑子一热又进了个新坑，发现家旁边就有家牌店在做这个，还是跑过去和老板认识了一下。老板人很好，知道我没几天呆也消费不了几个钱还是很热情。巧的是这个老板以前还是腾讯的，说自己不想卷了跑出来的，现在顺着兴趣做卡牌，我也可以跟他吐槽吐槽面试的破事儿。 今晚闲来无事，聊聊我">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-04-03T12:29:01.000Z">
+<meta property="article:modified_time" content="2025-01-12T16:07:01.692Z">
+<meta property="article:author" content="Dath Chou">
+<meta property="article:tag" content="中文">
+<meta property="article:tag" content="聊聊生活">
+<meta name="twitter:card" content="summary">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="/avatar/Misaka.jpg">
+    
+    <title>我的卡牌人生 · 三味冰淇淋</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
+    
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
+    
+        <body class="post-body">
+    
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu">
+        
+            
+                <div style="padding-left: 1px;">&#xe775;</div>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- theme mode switch button -->
+        <span class="header-theme-btn header-element">
+            <i class="fas fa-adjust"></i>
+        </span>
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <a href=/>三味冰淇淋</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
+    
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">三味冰淇淋</a>
+            </div>
+            <div class="post-title header-element">
+                <a href="#" class="post-name">我的卡牌人生</a>
+            </div>
+        </div>
+    
+</header>
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden">
+        
+        
+            <div>&#xe639;</div>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
+
+
+
+
+
+
+
+    height:50vh;
+
+">
+    
+    <!-- 主页  -->
+    
+        
+    <!-- 404页  -->
+    
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+                我的卡牌人生
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+                
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页 meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="中文">中文</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="聊聊生活">聊聊生活</a>
+    
+</div>
+
+                
+                <!-- 文章字数统计 -->
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">3.1k</span>阅读时长: <span class="post-count reading-time">10 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
+                    <span class="post-intro-time">2023/04/03</span>
+                    <!-- busuanzi -->
+                    
+                        <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                            <span class="iconfont-archer post-intro-busuanzi">&#xe602;</span>
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+
+            <script>
+  // get user agent
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
+  }
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded')
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in')
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb() {
+    if (browser.versions.uc) {
+      console.log('UCBrowser')
+      fontLoaded()
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular'],
+        },
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
+        },
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
+        },
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
+        },
+        timeout: 5000, // Set the timeout to two seconds
+      })
+    }
+  }
+
+  function asyncErr() {
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
+  }
+
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
+
+    async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
+</script>
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
+    <article class="article-entry">
+        <span id="more"></span>
+
+<p>三月荒废，和各大厂小厂拉扯了一个月，点名批评腾讯，不想招人别招。</p>
+<p>明明没几天就要去北京美团<del>当骑手</del>了，后面还不知道什么时候能回深圳，但脑子一热又进了个新坑，发现家旁边就有家牌店在做这个，还是跑过去和老板认识了一下。老板人很好，知道我没几天呆也消费不了几个钱还是很热情。巧的是这个老板以前还是腾讯的，说自己不想卷了跑出来的，现在顺着兴趣做卡牌，我也可以跟他吐槽吐槽面试的破事儿。</p>
+<p>今晚闲来无事，聊聊我跟小纸片的渊源，以及我以难以想象的运气遇到的，对一无所有的我照顾有加的朋友们。</p>
+<h2 id="TCG卡牌"><a href="#TCG卡牌" class="headerlink" title="TCG卡牌"></a>TCG卡牌</h2><p>开始之前先把这个说清楚，这里说的卡牌叫TCG（Trading card game）卡牌，集换式卡牌。核心就是一套牌几十张，玩家自己从很多很多的牌中选一些出来组成一套牌，然后对战。如果你听说过游戏王，那么就和它差不多，只不过我不玩游戏王，而是万智牌，ptcg, opcg等，主要是万智牌。</p>
+<h2 id="小胖，和三个学长"><a href="#小胖，和三个学长" class="headerlink" title="小胖，和三个学长"></a>小胖，和三个学长</h2><p>我第一次接触到这些小纸片是在五年级左右，当时在楼道里总能捡到六年级在玩的万智牌。万智牌是一款背景在虚构的魔法宇宙下的卡牌游戏，那些精美的卡图，不明觉厉的规则，以及引人入胜的背景介绍语句把我拿捏的死死的。卡图就不放了，放几句背景来感受下（括号里是卡牌名）。</p>
+<blockquote>
+<p><em>鹏洛客突袭队刚到新非瑞克西亚，便遭此处的时空防御打散：艾蕾侬早就知道他们会来。</em> (时空干扰)</p>
+</blockquote>
+<blockquote>
+<p><em>罗佐司从其深海国度现身，潮浪为其意志而躬身行礼，海岸见其身形即畏缩奔逃。</em> （兴潮罗佐司）</p>
+</blockquote>
+<p>这是随手找的两张牌，基本每张牌的背景描述都是这般引人入胜，再加上质量极高的卡图，这样的事物对当时的我简直就是降维打击。所以在某一天，我战战兢兢的推开了高年级同学常去的卡牌店的门，踏上了卡牌玩家的路。</p>
+<p>牌店的老板是个胖子，所以大家都叫他小胖。明明是一群小学生初中生，却叫这样一个店长叫小胖，但大家都这么叫，所以我也跟着叫。小胖教了我万智牌怎么玩，给我组了我的第一套卡牌，因为当时预算只有四十块，现在看来那套牌弱的完全不能玩，但在当时大家的套牌水平都差不多的情况下，玩的倒也开心。更别说能玩上这样一个“很帅”的东西，真的是开心的不得了。</p>
+<p>与（可能存在的）刻板印象完全相反的是，在那个店里玩的人都难以想象的优秀。有几个出手阔绰的，现在看来都觉得不可思议的高中生，现在不是在国外，就是事业有成。几个初中生也考上的都是深圳顶尖的高中，我嘛，也不差吧。三个学长是和我一个小区，一起长大的哥哥，也在打牌，我们有时候也会约着在某一个家里打牌，那段时间开心的不得了。现在三个人有两个在国外，一个不咋地，但都也在世界各地打着牌。</p>
+<p>话说回来，小胖对每个人都很和善，能消费就消费，消费不了也没关系。我是不知道一个年轻人是要怎么做，才能和一群小学生初中生有说有笑的。当时我有点钱就砸在店里，后来我妈每次问我钱去哪了，我都回答买卡了，她就不让我玩了。但我还是去店里，每天逃掉学校的午休就去店里坐着。买瓶水买点小零食，玩玩偷偷买的手机，和小胖聊聊天，甚至是趴在桌上睡个午觉。后来逃午休的事给发现了，被一通狂骂。</p>
+<p>最后小胖的店里打牌的人越来越少了，毕竟大部分是各种各样的学生，都在以各种方式往上走，在南山区的牌店最后总算是支撑不下去了，我也暂时退了卡牌坑。小胖不知道现在怎么样了，在倒闭前的几个月里他好像已经卖起了保险，可能现在就在卖保险吧。三个学长也一下就失联了，直到后面我高中毕业了，回坑后万智牌又把我们聚在了一起。</p>
+<h2 id="小七和小张"><a href="#小七和小张" class="headerlink" title="小七和小张"></a>小七和小张</h2><p>再接触万智牌就是高中毕业了，终于也算是多了一点自由的空间。有一天突然就想起来了这个阔别四五年的爱好，于是搜了一下本地万智牌社区，发现深圳好像已经只剩一家牌店了。还好牌店不远，就抽一天去了店里，牌店的老板叫小七，我后面跟着别人叫他七爷。店里还有个店员叫小张，倒是没人叫他张爷，我也只好跟着叫小张，后来有人叫他张头，我也便叫他张头了。</p>
+<p>小七在我大一的时候还是牌店的名义店长，也照顾了我许多，但在成都上学的时候群里传来消息说小七可能要回老家了，以后可能也就在有空的时候来店里看看。店上还举行了欢送小七的比赛，奖品都是店里玩的朋友们赞助的，十分丰厚。我自然没法去参加了，当时还挺伤心的，不过其实后面小七来店上的频率还挺高的，大概这就是电影理想中的大团圆结局吧。</p>
+<p>小张人高马大的，但看得出来非常年轻，待人也非常和善。至今我也没想明白，也不知道到底修行到什么境界才能明白，要如何对每一个人都那么友善。刚到牌店那会没有认识的人，也有点尴尬，后来在牌店偶遇了上面说到的三个学长其中的一个，以及一些曾经在小胖店里认识的人，他们也很惊讶这么多年后居然还能再次相遇，我也在店里有了点立足之地。他们带着我和小张一起吃了顿饭，小张就能很亲切的对我了。一次吃完饭在回店里的路上小张突然说要跟我赌，赌某个人还在不在店上，就赌一瓶水。我当时都不觉得我们自己有这么熟，他就这样一下子拉进了我们之间的距离，以至于我一直都记得。</p>
+<p>那瓶水后来我拿走了。</p>
+<p>小张后来也离职了，但也常在店上出现，反而是我在牌店搬了几次家后就没怎么去过了。他现在不知道具体在做什么，但总是活跃在各种卡牌游戏的前线。要是能像他那样做着自己喜欢的事，也给自己搞口饭吃，那该有多好啊，现在想尽办法一个人整点薯条的我总是这么想着。</p>
+<h2 id="昆西和牛爷"><a href="#昆西和牛爷" class="headerlink" title="昆西和牛爷"></a>昆西和牛爷</h2><p>在我刚到成都那会，成都查得到的万智牌店有两家，一家店老板叫昆西，另一家老板叫牛爷。</p>
+<p>我先去的店其实是昆西的店。昆西人很好，店上的人也很友善，虽然我一个学期都不一定去一次（主要是太远了），还是像朋友一样对我。不过就像之前说的，店面离学校实在是有点远，店上人也不是很多，后面就没怎么去过了。</p>
+<p>昆西的店好像在这两年一直在搬迁，搬来搬去好像反而搬到我学校附近了。之前和两个牌友（有一个是姐姐）一起吃饭的时候去过店上一次，在吃饭的时候听说昆西家里做生意赔了，我猜十有八九是因为疫情，两万块就把店盘出去了，现在在努力还债。人民大抵总是无辜且可怜的，时代辜负了人民。</p>
+<p>相比之下牛爷的店就离我学校近很多，还在我学日语的地方附近，自然和牛爷的接触就多很多。牛爷去年过了四十岁生日，不像是有老婆的样子，在我初来乍到的那会儿还有一份游戏设计的工作，现在全职做卡牌了。看得出来，和前面出现的人物相比，牛爷最大的不同就是这个年龄。牛爷就像一个受人尊敬的老大哥，但总也表现出年轻人一般的心态，在群里和大家说说笑笑，时不时蹦几句骚话，明明大家都叫他“爷”，却好像一点隔阂也没有。</p>
+<p>牛爷店里活跃的人不少，以至于店里总有坐不下的时候，店里从高中生到博士到社会人士都有，我也不愿意和太多人有瓜葛，所以基本上还是和牛爷来往最多。</p>
+<p>嗨呀，明明觉得备受照顾，可到嘴边又好像说不出个一二三了。可能上了大学就没法像以前那样一段时间天天跑牌店了，没能留下什么“对那段时间的美好记忆”。受到牛爷的照顾都是一件一件小事堆砌起来的，因此还是很感谢他，但又不太好挑几件拎出来说，也就只好作罢。</p>
+<p>牛爷知道我现在在北京，让我回成都了跟他说声，要请我吃个饭，我也很期待。</p>
+<h2 id="柱哥"><a href="#柱哥" class="headerlink" title="柱哥"></a>柱哥</h2><p>柱哥是我三月在家待业时，脑子一热入新坑时发现的牌店老板，就在我家附近。但当时基本已经确定要去北京了，也是抱着一种很不好意思的心态去的店上，毕竟消费不了什么，甚至玩都玩不了几天。</p>
+<p>柱哥知道了我的情况，也没说什么，反而是告诉我他之前在腾讯干了八年，可以看看有没有能帮我的。柱哥说他在腾讯干了八年，卷不动了出来的，做了卡牌相关八年，去年开的这个店，现在还在亏钱。我告诉他我这些年去过的牌店，告诉他我见过的深圳牌店好像混的都有点惨，也祝他生意兴隆。柱哥看得出来是没当过几年老板，在店里忙着打别的比赛的时候，看见我没事做玩手机还会带着歉意的来跟我说没法陪我打牌，因为店里很忙。</p>
+<p>来北京的前一天我想去给柱哥道个别，却忘了那时也就是清明节前夕了，柱哥也开车回老家了。只能在微信上跟他打个招呼，听他说也在开辟万智牌赛道，我跟他说祝他生意兴隆，他让我下次回深圳再来玩。</p>
+<hr>
+<p>回头看看，我对这些店员们老板们的感激之情大多来自他们明知我一无所有，还是把我像朋友一样热情相待。二十多年活下来，也见过不少对别人无比冷淡的家伙，并且好像随着年龄增长，进了大学，见识了职场，这样的人数量也跟着增加。索性大多数人都是好的，都向他人散发着不求回报的善意，我也得以从他们身上学到待人接事的技巧，在成长的路上留下开心的痕迹。</p>
+<p>有点肉麻，像高中生强行升华的命题作文，所以虽然还想说点“这些小卡片承载了人与人之间的温情”一类的话，还是算了。但无论如何，时间需要具体的事物来承载，这些卡牌就是我的回忆与当今。</p>
+
+    </article>
+    <!-- license -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://harlequinicecream.com">Dath Chou</a>
+            <p>原文链接：<a href="https://harlequinicecream.com/2023/04/03/mycarrdgamelife/">https://harlequinicecream.com/2023/04/03/mycarrdgamelife/</a>
+            <p>发表日期：<a href="https://harlequinicecream.com/2023/04/03/mycarrdgamelife/">四月 3日 2023, 8:29:01 晚上</a>
+            <p>更新日期：<a href="https://harlequinicecream.com/2023/04/03/mycarrdgamelife/">January 13th 2025, 12:07:01 am</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可，图转侵删致歉。</p>
+        </div>
+    
+    <!-- paginator -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/2023/04/13/handlerMenu/" title="Handler私房菜">
+                    <div class="nextTitle">Handler私房菜</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/2023/03/02/fuckoppo/" title="聊聊oppo，以及实习">
+                    <div class="prevTitle">聊聊oppo，以及实习</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- comment -->
+    
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
+
+            
+
+            
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
+            
+            
+
+            
+
+        </div>
+    
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+    <!-- Mathjax -->
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+        <div class="social">
+            
+    
+        
+            
+                <a href="mailto:cuisiwanf@163.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/cuisiwang" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                    
+                    <img class="profile-qr" src="/assets/weixin_qr.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+        </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    
+    <!-- 不蒜子  -->
+    
+        <div class="busuanzi-container">
+            
+             
+                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+            
+        </div>
+    	
+</footer>
+
+        </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
+
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TCG%E5%8D%A1%E7%89%8C"><span class="toc-number">1.</span> <span class="toc-text">TCG卡牌</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E8%83%96%EF%BC%8C%E5%92%8C%E4%B8%89%E4%B8%AA%E5%AD%A6%E9%95%BF"><span class="toc-number">2.</span> <span class="toc-text">小胖，和三个学长</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E4%B8%83%E5%92%8C%E5%B0%8F%E5%BC%A0"><span class="toc-number">3.</span> <span class="toc-text">小七和小张</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%86%E8%A5%BF%E5%92%8C%E7%89%9B%E7%88%B7"><span class="toc-number">4.</span> <span class="toc-text">昆西和牛爷</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%B1%E5%93%A5"><span class="toc-number">5.</span> <span class="toc-text">柱哥</span></a></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 12
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+        
+            
+            
+            <div class="archive-year"> 2025 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span>
+            <a class="archive-post-title" href="/2025/01/17/whateverhello2025/">真的吗真的吗，我2024一年就写了一篇博客吗</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2024 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/23</span>
+            <a class="archive-post-title" href="/2024/07/23/lalalala/">转眼间2024过去不止一半了</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2023 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/20</span>
+            <a class="archive-post-title" href="/2023/12/20/ilove2023ireallydo/">ありがとう2023、そして、また。</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/27</span>
+            <a class="archive-post-title" href="/2023/11/27/daysundoing/">へいじつ</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/20</span>
+            <a class="archive-post-title" href="/2023/08/20/ohmylalaland/">おかえり</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/11</span>
+            <a class="archive-post-title" href="/2023/07/11/sarabauntouchabledreamland/">年轻人的第一款提桶跑路</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/23</span>
+            <a class="archive-post-title" href="/2023/05/23/shittymiketea/">我在成都郊区的景点买了杯奥利给奶茶</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/13</span>
+            <a class="archive-post-title" href="/2023/04/13/handlerMenu/">Handler私房菜</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/03</span>
+            <a class="archive-post-title" href="/2023/04/03/mycarrdgamelife/">我的卡牌人生</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/02</span>
+            <a class="archive-post-title" href="/2023/03/02/fuckoppo/">聊聊oppo，以及实习</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/27</span>
+            <a class="archive-post-title" href="/2023/02/27/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%8E%8B%E7%BC%A9%E5%85%A5%E9%97%A8%E3%80%8B%E7%AE%80%E8%AF%BB/">《数据压缩入门》简读</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/11</span>
+            <a class="archive-post-title" href="/2023/02/11/%E5%A5%B3%E7%94%9F%E5%BE%92/">《女生徒》 ——太宰治</a>
+        </li>
+    
+    </div>
+</div>
+
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+        
+            <span class="sidebar-tag-name" data-tags="中文">
+                <span class="iconfont-archer">&#xe606;</span>
+                中文
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="人生BFS">
+                <span class="iconfont-archer">&#xe606;</span>
+                人生BFS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="聊聊生活">
+                <span class="iconfont-archer">&#xe606;</span>
+                聊聊生活
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Android">
+                <span class="iconfont-archer">&#xe606;</span>
+                Android
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="人生DFS">
+                <span class="iconfont-archer">&#xe606;</span>
+                人生DFS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="瞎写写">
+                <span class="iconfont-archer">&#xe606;</span>
+                瞎写写
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="旅游">
+                <span class="iconfont-archer">&#xe606;</span>
+                旅游
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="数据压缩">
+                <span class="iconfont-archer">&#xe606;</span>
+                数据压缩
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="学习">
+                <span class="iconfont-archer">&#xe606;</span>
+                学习
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="年终总结">
+                <span class="iconfont-archer">&#xe606;</span>
+                年终总结
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="聊聊生活，年终总结">
+                <span class="iconfont-archer">&#xe606;</span>
+                聊聊生活，年终总结
+            </span>
+        
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="中文">
+            <span class="iconfont-archer">&#xe60a;</span>
+            中文
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="学习">
+            <span class="iconfont-archer">&#xe60a;</span>
+            学习
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="生活">
+            <span class="iconfont-archer">&#xe60a;</span>
+            生活
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="Android">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Android
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="学习">
+            <span class="iconfont-archer">&#xe60a;</span>
+            学习
+        </span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+
+    </div>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
+    var siteMeta = {
+        url: "https://harlequinicecream.com",
+        root: siteMetaRoot,
+        author: "Dath Chou"
+    }
+</script>
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20211217" async></script>
+        
+        <!-- mermaid -->
+        
+    </body>
+</html>
